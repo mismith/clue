@@ -1,0 +1,83 @@
+:root {
+	--cell-color: #fff;
+	--bg-color: #000;
+	--start-color: #FC0;
+	--grid-color: var(--bg-color);
+	--door-color: #bbb;
+}
+* { box-sizing: border-box; }
+body {
+	background-color: var(--bg-color);
+	color: var(--cell-color);
+	padding: 0;
+	margin: 0;
+}
+
+
+.flex-row {
+	display: flex;
+}
+.board {
+	position: relative;
+	color: var(--bg-color);
+
+	& > .bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ddd;
+		z-index: 0;
+	}
+	& > .fg {
+		position: relative;
+		z-index: 1;
+	}
+	& td {
+		min-width: 40px; 
+		height: 40px; 
+		text-align: center; 
+		vertical-align: middle;
+
+		&.cell { background-color: var(--cell-color); border: solid 1px #000; }
+		&.bg {  background-color: var(--bg-color); }
+		&.start { background-color: var(--start-color); }
+
+		&.border-top { border-top: 1px solid var(--grid-color); }
+		&.border-left { border-left: 1px solid var(--grid-color); }
+		&.border-right { border-right: 1px solid var(--grid-color); }
+		&.border-bottom { border-bottom: 1px solid var(--grid-color); }
+
+		&.door-top { border-top-color: var(--door-color); }
+		&.door-left { border-left-color: var(--door-color); }
+		&.door-right { border-right-color: var(--door-color); }
+		&.door-bottom { border-bottom-color: var(--door-color); }
+
+		&.room.border-top { border-top-width: 4px; }
+		&.room.border-left { border-left-width: 4px; }
+		&.room.border-right { border-right-width: 4px; }
+		&.room.border-bottom { border-bottom-width: 4px; }
+
+		&.room.trapdoor-top-left { background-image: linear-gradient(135deg, red 50%, transparent 50%); }
+		&.room.trapdoor-bottom-right { background-image: linear-gradient(-45deg, red 50%, transparent 50%); }
+		&.room.trapdoor-top-right { background-image: linear-gradient(-135deg, blue 50%, transparent 50%); }
+		&.room.trapdoor-bottom-left { background-image: linear-gradient(45deg, blue 50%, transparent 50%); }
+	}
+}
+
+.sheet {
+	background-color: var(--cell-color);
+	color: var(--bg-color);
+
+	& tr.header {
+		background-color: var(--door-color);
+	}
+	& td {
+		height: 24px;
+		min-width: 32px;
+		vertical-align: middle;
+		padding: 2px 5px;
+		border: solid 1px #000;
+	}
+}

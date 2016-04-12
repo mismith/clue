@@ -1,0 +1,50 @@
+* { box-sizing: border-box; }
+body {
+	background-color: #000;
+	color: #fff;
+	padding: 0;
+	margin: 0;
+}
+
+
+.flex-row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.board {
+	position: relative;
+	color: #000
+}
+.board > .bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ddd; z-index: 0; }
+.board > .fg { position: relative; z-index: 1; }
+.board td { min-width: 40px; height: 40px; text-align: center; vertical-align: middle; }
+.board td.cell { background-color: #fff; border: solid 1px #000; }
+.board td.bg { background-color: #000; }
+.board td.start { background-color: #FC0; }
+.board td.border-top { border-top: 1px solid #000; }
+.board td.border-left { border-left: 1px solid #000; }
+.board td.border-right { border-right: 1px solid #000; }
+.board td.border-bottom { border-bottom: 1px solid #000; }
+.board td.door-top { border-top-color: #bbb; }
+.board td.door-left { border-left-color: #bbb; }
+.board td.door-right { border-right-color: #bbb; }
+.board td.door-bottom { border-bottom-color: #bbb; }
+.board td.room.border-top { border-top-width: 4px; }
+.board td.room.border-left { border-left-width: 4px; }
+.board td.room.border-right { border-right-width: 4px; }
+.board td.room.border-bottom { border-bottom-width: 4px; }
+.board td.room.trapdoor-top-left { background-image: -webkit-linear-gradient(315deg, red 50%, transparent 50%); background-image: linear-gradient(135deg, red 50%, transparent 50%); }
+.board td.room.trapdoor-bottom-right { background-image: -webkit-linear-gradient(135deg, red 50%, transparent 50%); background-image: linear-gradient(-45deg, red 50%, transparent 50%); }
+.board td.room.trapdoor-top-right { background-image: -webkit-linear-gradient(225deg, blue 50%, transparent 50%); background-image: linear-gradient(-135deg, blue 50%, transparent 50%); }
+.board td.room.trapdoor-bottom-left { background-image: -webkit-linear-gradient(45deg, blue 50%, transparent 50%); background-image: linear-gradient(45deg, blue 50%, transparent 50%); }
+
+.sheet {
+	background-color: #fff;
+	color: #000
+}
+
+.sheet tr.header { background-color: #bbb; }
+
+.sheet td { height: 24px; min-width: 32px; vertical-align: middle; padding: 2px 5px; border: solid 1px #000; }

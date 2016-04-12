@@ -1,0 +1,32 @@
+{
+  "name": "clue",
+  "version": "0.1.0",
+  "description": "Generate your own custom Clue game board, sheets, and cards",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist/*",
+    "build:html": "cpx src/**/*.html dist/",
+    "build:css": "postcss src/**/*.css --use postcss-cssnext --output dist/bundle.css",
+    "build:js": "babel src/ --presets es2015,react --out-file dist/bundle.js",
+    "build": "npm run build:html & npm run build:js & npm run build:css",
+    "watch:html": "npm run build:html -- --watch",
+    "watch:css": "npm run build:css -- --watch",
+    "watch:js": "npm run build:js -- --watch",
+    "watch": "npm run watch:html & npm run watch:css & npm run watch:js",
+    "serve": "browser-sync start --server --serveStatic dist/ --files 'dist/**/*' --no-ghost-mode --no-notify --no-ui",
+    "start": "npm run watch & npm run serve"
+  },
+  "author": "Murray Smith <murray@mismith.info> (http://mismith.info)",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "browser-sync": "^2.11.1",
+    "cpx": "^1.3.1",
+    "onchange": "^2.0.0",
+    "postcss-cli": "^2.5.1",
+    "postcss-cssnext": "^2.5.2"
+  }
+}
