@@ -49,31 +49,31 @@ let Board = React.createClass({
 				<tr>
 					<td></td>
 					<td></td>
+					<td colSpan="5" rowSpan="6">{val(this.props.groups[2].items[0])}</td>
+					<td></td>
+					<td></td>
 					<td colSpan="5" rowSpan="6">{val(this.props.groups[2].items[1])}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td colSpan="4" rowSpan="7">{val(this.props.groups[2].items[3])}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td colSpan="5" rowSpan="6">{val(this.props.groups[2].items[2])}</td>
 					<td></td>
 					<td></td>
 					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td colSpan="4" rowSpan="7">{val(this.props.groups[2].items[4])}</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td colSpan="5" rowSpan="6">{val(this.props.groups[2].items[3])}</td>
-					<td></td>
-					<td></td>
-					<td></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -167,7 +167,7 @@ let Board = React.createClass({
 				<tr>
 					<td></td>
 					<td></td>
-					<td colSpan="7" rowSpan="8">{val(this.props.groups[2].items[5])}</td>
+					<td colSpan="7" rowSpan="8">{val(this.props.groups[2].items[4])}</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -192,17 +192,9 @@ let Board = React.createClass({
 					<td></td>
 					<td></td>
 					<td></td>
-					<td colSpan="7" rowSpan="5">{val(this.props.groups[2].items[0])}</td>
+					<td colSpan="7" rowSpan="5">{val(this.props.game)}</td>
 					<td></td>
-					<td colSpan="7" rowSpan="6">{val(this.props.groups[2].items[6])}</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td colSpan="7" rowSpan="6">{val(this.props.groups[2].items[5])}</td>
 					<td></td>
 				</tr>
 				<tr>
@@ -236,6 +228,14 @@ let Board = React.createClass({
 					<td></td>
 					<td></td>
 					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -277,7 +277,7 @@ let Board = React.createClass({
 					<td></td>
 					<td></td>
 					<td></td>
-					<td colSpan="7" rowSpan="8">{val(this.props.groups[2].items[8])}</td>
+					<td colSpan="7" rowSpan="8">{val(this.props.groups[2].items[7])}</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -303,13 +303,13 @@ let Board = React.createClass({
 					<td></td>
 					<td></td>
 					<td></td>
-					<td colSpan="6" rowSpan="7">{val(this.props.groups[2].items[9])}</td>
+					<td colSpan="6" rowSpan="7">{val(this.props.groups[2].items[8])}</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
-					<td colSpan="6" rowSpan="6">{val(this.props.groups[2].items[7])}</td>
+					<td colSpan="6" rowSpan="6">{val(this.props.groups[2].items[6])}</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -1127,16 +1127,25 @@ let Board = React.createClass({
 
 let Sheet = React.createClass({
 	render: function () {
-		return <table className="sheet" cellSpacing="0" cellPadding="0">
-			{this.props.groups.map((group, i) => <Sheet.Group key={i} name={group.name} items={group.items} />)}
-		</table>
+		return <div className="sheet">
+			<header>
+				<span>{val(this.props.game)}</span>
+			</header>
+			<table cellSpacing="0" cellPadding="0">
+			{this.props.groups.map((group, i) =>
+				<Sheet.Group key={i} name={group.name} items={group.items} />
+			)}
+			</table>
+		</div>
 	},
 });
 Sheet.Group = React.createClass({
 	render: function () {
 		return <tbody>
 			<Sheet.Row.Header name={this.props.name} />
-			{this.props.items.map((item, i) => item.showInSheet !== false ? <Sheet.Row key={i} item={item} /> : false)}
+		{this.props.items.map((item, i) => 
+			<Sheet.Row key={i} item={item} />
+		)}
 		</tbody>
 	},
 });
@@ -1170,9 +1179,27 @@ Sheet.Row.Header = React.createClass({
 });
 
 
+let Card = React.createClass({
+	render: function () {
+		return <div className="card">
+			<header>
+				<span>{this.props.item.name}</span>
+			</header>
+			<figure></figure>
+			<footer>
+				<span>{this.props.item.name}</span>
+			</footer>
+		</div>
+	},
+});
+
+
 let ClueGame = React.createClass({
 	getInitialState: function () {
 		return {
+			game: {
+				name: 'Clue',
+			},
 			groups: [
 				{
 					name: 'Who',
@@ -1236,10 +1263,6 @@ let ClueGame = React.createClass({
 					name: 'Where',
 					items: [
 						{
-							name: 'Clue',
-							showInSheet: false,
-						},
-						{
 							name: 'Conservatory',
 						},
 						{
@@ -1271,10 +1294,10 @@ let ClueGame = React.createClass({
 			],
 		};
 	},
-	handleNameChange: function (groupKey, itemIndex, e) {
+	handleNameChange: function (groupIndex, itemIndex, e) {
 		this.setState(React.addons.update(this.state, {
 			groups: {
-				[groupKey]: {
+				[groupIndex]: {
 					items: {
 						[itemIndex]: {
 							value: {$set: e.target.value},
@@ -1285,15 +1308,37 @@ let ClueGame = React.createClass({
 		}));
 	},
 	render: function () {
+		let cards = [];
+		this.state.groups.forEach(group => group.items.forEach(item => cards.push(item)));
+
 		return <div className="flex-row">
 			<table id="input">
-				{this.state.groups.map((group, groupKey) => <tbody key={groupKey}>
+			{this.state.groups.map((group, i) => 
+				<tbody key={i}>
 					<tr><td>{group.name}</td></tr>
-					{group.items.map((item, itemIndex) => <tr key={itemIndex}><td><input placeholder={item.name} onChange={this.handleNameChange.bind(this, groupKey, itemIndex)} /></td></tr>)}
-				</tbody>)}
+				{group.items.map((item, j) =>
+					<tr key={j}>
+						<td>
+							<input placeholder={item.name} onChange={this.handleNameChange.bind(this, i, j)} />
+						</td>
+					</tr>
+				)}
+				</tbody>
+			)}
 			</table>
-			<Board groups={this.state.groups} />
-			<Sheet groups={this.state.groups} />
+			<div id="content">
+				<Board game={this.state.game} groups={this.state.groups} />
+				<div id="sheets">
+				{this.state.groups[0].items.map((item, i) => 
+					<Sheet key={i} game={this.state.game} groups={this.state.groups} />
+				)}
+				</div>
+				<div id="cards">
+				{cards.map((item, i) => 
+					<Card key={i} item={item} />
+				)}
+				</div>
+			</div>
 		</div>
 	},
 });
