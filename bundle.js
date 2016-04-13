@@ -68,14 +68,14 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "5", rowSpan: "6" },
-							val(this.props.groups[2].items[1])
+							val(this.props.groups[2].items[0])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
 						React.createElement(
 							"td",
 							{ colSpan: "5", rowSpan: "6" },
-							val(this.props.groups[2].items[2])
+							val(this.props.groups[2].items[1])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
@@ -88,7 +88,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "4", rowSpan: "7" },
-							val(this.props.groups[2].items[4])
+							val(this.props.groups[2].items[3])
 						),
 						React.createElement("td", null)
 					),
@@ -103,7 +103,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "5", rowSpan: "6" },
-							val(this.props.groups[2].items[3])
+							val(this.props.groups[2].items[2])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
@@ -218,7 +218,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "7", rowSpan: "8" },
-							val(this.props.groups[2].items[5])
+							val(this.props.groups[2].items[4])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
@@ -249,13 +249,13 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "7", rowSpan: "5" },
-							val(this.props.groups[2].items[0])
+							val(this.props.game)
 						),
 						React.createElement("td", null),
 						React.createElement(
 							"td",
 							{ colSpan: "7", rowSpan: "6" },
-							val(this.props.groups[2].items[6])
+							val(this.props.groups[2].items[5])
 						),
 						React.createElement("td", null)
 					),
@@ -356,7 +356,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "7", rowSpan: "8" },
-							val(this.props.groups[2].items[8])
+							val(this.props.groups[2].items[7])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
@@ -388,7 +388,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "6", rowSpan: "7" },
-							val(this.props.groups[2].items[9])
+							val(this.props.groups[2].items[8])
 						),
 						React.createElement("td", null)
 					),
@@ -400,7 +400,7 @@ var Board = React.createClass({
 						React.createElement(
 							"td",
 							{ colSpan: "6", rowSpan: "6" },
-							val(this.props.groups[2].items[7])
+							val(this.props.groups[2].items[6])
 						),
 						React.createElement("td", null),
 						React.createElement("td", null),
@@ -1323,11 +1323,24 @@ var Sheet = React.createClass({
 
 	render: function render() {
 		return React.createElement(
-			"table",
-			{ className: "sheet", cellSpacing: "0", cellPadding: "0" },
-			this.props.groups.map(function (group, i) {
-				return React.createElement(Sheet.Group, { key: i, name: group.name, items: group.items });
-			})
+			"div",
+			{ className: "sheet" },
+			React.createElement(
+				"header",
+				null,
+				React.createElement(
+					"span",
+					null,
+					val(this.props.game)
+				)
+			),
+			React.createElement(
+				"table",
+				{ cellSpacing: "0", cellPadding: "0" },
+				this.props.groups.map(function (group, i) {
+					return React.createElement(Sheet.Group, { key: i, name: group.name, items: group.items });
+				})
+			)
 		);
 	}
 });
@@ -1340,7 +1353,7 @@ Sheet.Group = React.createClass({
 			null,
 			React.createElement(Sheet.Row.Header, { name: this.props.name }),
 			this.props.items.map(function (item, i) {
-				return item.showInSheet !== false ? React.createElement(Sheet.Row, { key: i, item: item }) : false;
+				return React.createElement(Sheet.Row, { key: i, item: item });
 			})
 		);
 	}
@@ -1390,11 +1403,44 @@ Sheet.Row.Header = React.createClass({
 	}
 });
 
+var Card = React.createClass({
+	displayName: "Card",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "card" },
+			React.createElement(
+				"header",
+				null,
+				React.createElement(
+					"span",
+					null,
+					this.props.item.name
+				)
+			),
+			React.createElement("figure", null),
+			React.createElement(
+				"footer",
+				null,
+				React.createElement(
+					"span",
+					null,
+					this.props.item.name
+				)
+			)
+		);
+	}
+});
+
 var ClueGame = React.createClass({
 	displayName: "ClueGame",
 
 	getInitialState: function getInitialState() {
 		return {
+			game: {
+				name: 'Clue'
+			},
 			groups: [{
 				name: 'Who',
 				items: [{
@@ -1436,9 +1482,6 @@ var ClueGame = React.createClass({
 			}, {
 				name: 'Where',
 				items: [{
-					name: 'Clue',
-					showInSheet: false
-				}, {
 					name: 'Conservatory'
 				}, {
 					name: 'Billiard Room'
@@ -1460,9 +1503,9 @@ var ClueGame = React.createClass({
 			}]
 		};
 	},
-	handleNameChange: function handleNameChange(groupKey, itemIndex, e) {
+	handleNameChange: function handleNameChange(groupIndex, itemIndex, e) {
 		this.setState(React.addons.update(this.state, {
-			groups: _defineProperty({}, groupKey, {
+			groups: _defineProperty({}, groupIndex, {
 				items: _defineProperty({}, itemIndex, {
 					value: { $set: e.target.value }
 				})
@@ -1472,16 +1515,23 @@ var ClueGame = React.createClass({
 	render: function render() {
 		var _this = this;
 
+		var cards = [];
+		this.state.groups.forEach(function (group) {
+			return group.items.forEach(function (item) {
+				return cards.push(item);
+			});
+		});
+
 		return React.createElement(
 			"div",
 			{ className: "flex-row" },
 			React.createElement(
 				"table",
 				{ id: "input" },
-				this.state.groups.map(function (group, groupKey) {
+				this.state.groups.map(function (group, i) {
 					return React.createElement(
 						"tbody",
-						{ key: groupKey },
+						{ key: i },
 						React.createElement(
 							"tr",
 							null,
@@ -1491,22 +1541,39 @@ var ClueGame = React.createClass({
 								group.name
 							)
 						),
-						group.items.map(function (item, itemIndex) {
+						group.items.map(function (item, j) {
 							return React.createElement(
 								"tr",
-								{ key: itemIndex },
+								{ key: j },
 								React.createElement(
 									"td",
 									null,
-									React.createElement("input", { placeholder: item.name, onChange: _this.handleNameChange.bind(_this, groupKey, itemIndex) })
+									React.createElement("input", { placeholder: item.name, onChange: _this.handleNameChange.bind(_this, i, j) })
 								)
 							);
 						})
 					);
 				})
 			),
-			React.createElement(Board, { groups: this.state.groups }),
-			React.createElement(Sheet, { groups: this.state.groups })
+			React.createElement(
+				"div",
+				{ id: "content" },
+				React.createElement(Board, { game: this.state.game, groups: this.state.groups }),
+				React.createElement(
+					"div",
+					{ id: "sheets" },
+					this.state.groups[0].items.map(function (item, i) {
+						return React.createElement(Sheet, { key: i, game: _this.state.game, groups: _this.state.groups });
+					})
+				),
+				React.createElement(
+					"div",
+					{ id: "cards" },
+					cards.map(function (item, i) {
+						return React.createElement(Card, { key: i, item: item });
+					})
+				)
+			)
 		);
 	}
 });

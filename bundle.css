@@ -1,7 +1,10 @@
 * { box-sizing: border-box; }
+html,
 body {
-	background-color: #000;
-	color: #fff;
+	width: 100%;
+	height: 100%;
+}
+body {
 	padding: 0;
 	margin: 0;
 }
@@ -13,38 +16,113 @@ body {
 	display: -ms-flexbox;
 	display: flex;
 }
+
+#clue {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+#content {
+	overflow: auto;
+}
+
 .board {
 	position: relative;
+	background-color: #000;
 	color: #000
 }
+
 .board > .bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ddd; z-index: 0; }
+
 .board > .fg { position: relative; z-index: 1; }
+
 .board td { min-width: 40px; height: 40px; text-align: center; vertical-align: middle; }
+
 .board td.cell { background-color: #fff; border: solid 1px #000; }
+
 .board td.bg { background-color: #000; }
+
 .board td.start { background-color: #FC0; }
+
 .board td.border-top { border-top: 1px solid #000; }
+
 .board td.border-left { border-left: 1px solid #000; }
+
 .board td.border-right { border-right: 1px solid #000; }
+
 .board td.border-bottom { border-bottom: 1px solid #000; }
+
 .board td.door-top { border-top-color: #bbb; }
+
 .board td.door-left { border-left-color: #bbb; }
+
 .board td.door-right { border-right-color: #bbb; }
+
 .board td.door-bottom { border-bottom-color: #bbb; }
+
+.board td.room {}
+
+.board td.room.door-top { border-top-style: dotted; }
+
+.board td.room.door-left { border-left-style: dotted; }
+
+.board td.room.door-right { border-right-style: dotted; }
+
+.board td.room.door-bottom { border-bottom-style: dotted; }
+
 .board td.room.border-top { border-top-width: 4px; }
+
 .board td.room.border-left { border-left-width: 4px; }
+
 .board td.room.border-right { border-right-width: 4px; }
+
 .board td.room.border-bottom { border-bottom-width: 4px; }
+
 .board td.room.trapdoor-top-left { background-image: -webkit-linear-gradient(315deg, red 50%, transparent 50%); background-image: linear-gradient(135deg, red 50%, transparent 50%); }
+
 .board td.room.trapdoor-bottom-right { background-image: -webkit-linear-gradient(135deg, red 50%, transparent 50%); background-image: linear-gradient(-45deg, red 50%, transparent 50%); }
+
 .board td.room.trapdoor-top-right { background-image: -webkit-linear-gradient(225deg, blue 50%, transparent 50%); background-image: linear-gradient(-135deg, blue 50%, transparent 50%); }
+
 .board td.room.trapdoor-bottom-left { background-image: -webkit-linear-gradient(45deg, blue 50%, transparent 50%); background-image: linear-gradient(45deg, blue 50%, transparent 50%); }
 
-.sheet {
-	background-color: #fff;
-	color: #000
+#sheets,
+#cards {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
 }
-
-.sheet tr.header { background-color: #bbb; }
-
-.sheet td { height: 24px; min-width: 32px; vertical-align: middle; padding: 2px 5px; border: solid 1px #000; }
+.sheet {
+	padding: .2in;
+	border-radius: .2in
+}
+.sheet header { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; padding: 10px; }
+.sheet table { border: solid 1px #000; }
+.sheet tr.header { background-color: #bbb; font-weight: bold; }
+.sheet td { height: 24px; min-width: 32px; vertical-align: middle; padding: 2px 5px; border: solid 1px #000; border-top-width: 0; border-left-width: 0; }
+.card {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	width: 3in;
+	height: 5in;
+	border: dotted .5px #ddd;
+	border-radius: .2in
+}
+.card header,
+	.card footer { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; height: 20%; }
+.card footer { -webkit-transform: rotate(180deg); transform: rotate(180deg); }
+.card figure { -webkit-box-flex: 1; -webkit-flex-grow: 1; -ms-flex-positive: 1; flex-grow: 1; background-color: #ddd; background-position: center center; background-size: contain; margin: 0 .333in; }
