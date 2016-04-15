@@ -48,11 +48,15 @@ body {
 	& > .fg {
 		position: relative;
 		z-index: 1;
+		pointer-events: none;
 	}
 	& td {
-		min-width: 40px; 
-		height: 40px; 
-		text-align: center; 
+		min-width: 40px;
+		max-width: 40px;
+		height: 40px;
+		min-height: 40px;
+		max-height: 40px;
+		text-align: center;
 		vertical-align: middle;
 
 		&.cell { background-color: var(--paper-color); border: solid 1px var(--outline-color); }
@@ -70,6 +74,16 @@ body {
 		&.door-bottom { border-bottom-color: var(--door-color); }
 
 		&.room {
+			background: transparent center center no-repeat;
+			background-size: cover;
+
+			& div {
+				display: inline-block;
+				background-color: rgba(255,255,255,.5);
+				padding: 2px 6px;
+				border-radius: 3px;
+			}
+
 			&.door-top { border-top-style: dotted; }
 			&.door-left { border-left-style: dotted; }
 			&.door-right { border-right-style: dotted; }
@@ -95,6 +109,7 @@ body {
 }
 .sheet {
 	padding: .2in;
+	border: dotted .5px var(--room-color);
 	border-radius: .2in;
 
 	& header {
@@ -107,8 +122,37 @@ body {
 		border: solid 1px var(--outline-color);
 	}
 	& tr.header {
-		background-color: var(--door-color);
+		background-color: var(--room-color);
 		font-weight: bold;
+
+		& td:first-child div {
+			--size: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			&:after {
+				content: "";
+				background-color: var(--door-color);
+				min-width: var(--size);
+				min-height: var(--size);
+			}
+			&.character {
+				&:after {
+					border-radius: 50%;
+				}
+			}
+			&.weapon {
+				&:after {
+					box-sizing: border-box;
+					border: solid calc(var(--size)/2) var(--room-color);
+					border-bottom-color: transparent;
+					border-top-width: 0;
+					border-bottom-width: calc(var(--size)*5/6);
+					margin-top: calc(var(--size)*-1/6);
+				}
+			}
+		}
 	}
 	& td {
 		height: 24px;
@@ -118,31 +162,71 @@ body {
 		border: solid 1px var(--outline-color);
 		border-top-width: 0;
 		border-left-width: 0;
+
+		& div {
+			max-width: 200px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 }
 .card {
+	--size: 36px;
 	display: flex;
 	flex-direction: column;
-	width: 3in;
-	height: 5in;
+	width: 4.5in;
+	height: 7in;
+	padding: var(--size);
 	border: dotted .5px var(--room-color);
-	border-radius: .2in;
+	border-radius: var(--size);
 
 	& header,
 	& footer {
 		display: flex;
-		justify-content: center;
 		align-items: center;
-		height: 20%;
+
+		& div {
+			flex-grow: 1;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		&:after {
+			content: "";
+			background-color: var(--door-color);
+			min-width: var(--size);
+			min-height: var(--size);
+		}
 	}
 	& footer {
 		transform: rotate(180deg);
 	}
 	& figure {
 		flex-grow: 1;
-		background-color: var(--room-color);
-		background-position: center center;
+		background: transparent center center no-repeat;
 		background-size: contain;
-		margin: 0 .333in;
+		margin: var(--size) 0;
+	}
+	&.character {
+		& header,
+		& footer {
+			&:after {
+				border-radius: 50%;
+			}
+		}
+	}
+	&.weapon {
+		& header,
+		& footer {
+			&:after {
+				box-sizing: border-box;
+				border: solid calc(var(--size)/2) white;
+				border-bottom-color: transparent;
+				border-top-width: 0;
+				border-bottom-width: calc(var(--size)*5/6);
+				margin-top: calc(var(--size)*-1/6);
+			}
+		}
 	}
 }
