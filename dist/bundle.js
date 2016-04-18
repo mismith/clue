@@ -1,5 +1,9 @@
 'use strict';
 
+//import React from 'react';
+//import ReactDOM from 'react-dom';
+//import FaUpload from 'react-icons/fa/upload';
+
 var val = function val(item) {
 	return item.value || item.name;
 };
@@ -1543,15 +1547,15 @@ var ClueGame = React.createClass({
 			}]
 		};
 	},
-	handleNameChange: function handleNameChange(groupIndex, itemIndex, e) {
-		if (groupIndex < 0 || itemIndex < 0) {
+	handleChange: function handleChange(key, value, groupIndex, itemIndex) {
+		if (arguments.length <= 2) {
 			var game = Object.assign({}, this.state.game);
-			game.value = e.target.value;
+			game[key] = value;
 
 			this.setState({ game: game });
 		} else {
 			var groups = [].concat(this.state.groups);
-			groups[groupIndex].items[itemIndex].value = e.target.value;
+			groups[groupIndex].items[itemIndex][key] = value;
 
 			this.setState({ groups: groups });
 		}
@@ -1573,7 +1577,7 @@ var ClueGame = React.createClass({
 						null,
 						React.createElement(
 							'td',
-							null,
+							{ colspan: '2' },
 							'Game'
 						)
 					),
@@ -1583,7 +1587,18 @@ var ClueGame = React.createClass({
 						React.createElement(
 							'td',
 							null,
-							React.createElement('input', { placeholder: this.state.game.name, onChange: this.handleNameChange.bind(this, -1, -1) })
+							React.createElement('input', { placeholder: this.state.game.name, onChange: function onChange(e) {
+									return _this.handleChange('value', e.target.value);
+								} })
+						),
+						React.createElement(
+							'td',
+							null,
+							React.createElement(ImgurUpload, { onUpload: function onUpload(data) {
+									return _this.handleChange('image', data.link);
+								}, onRemove: function onRemove(data) {
+									return _this.handleChange('image', null);
+								} })
 						)
 					)
 				),
@@ -1607,7 +1622,18 @@ var ClueGame = React.createClass({
 								React.createElement(
 									'td',
 									null,
-									React.createElement('input', { placeholder: item.name, onChange: _this.handleNameChange.bind(_this, i, j) })
+									React.createElement('input', { placeholder: item.name, onChange: function onChange(e) {
+											return _this.handleChange('value', e.target.value, i, j);
+										} })
+								),
+								React.createElement(
+									'td',
+									null,
+									React.createElement(ImgurUpload, { onUpload: function onUpload(data) {
+											return _this.handleChange('image', data.link, i, j);
+										}, onRemove: function onRemove(data) {
+											return _this.handleChange('image', null, i, j);
+										} })
 								)
 							);
 						})
@@ -1634,6 +1660,95 @@ var ClueGame = React.createClass({
 						});
 					})
 				)
+			)
+		);
+	}
+});
+
+var ImgurUpload = React.createClass({
+	displayName: 'ImgurUpload',
+	getDefaultProps: function getDefaultProps() {
+		return {
+			onUpload: function onUpload() {},
+			onRemove: function onRemove() {}
+		};
+	},
+	getInitialState: function getInitialState() {
+		return {
+			image: null
+		};
+	},
+	imgur: function imgur(method) {
+		var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+		return fetch('https://api.imgur.com/3/' + method, Object.assign({
+			headers: { Authorization: 'Client-ID 6c8483b3b8e6fb9' }
+		}, options));
+	},
+	handleUpload: function handleUpload(e) {
+		var _this2 = this;
+
+		var data = new FormData();
+		data.append('image', e.target.files[0]);
+
+		this.imgur('upload', {
+			method: 'POST',
+			body: data
+		}).then(function (res) {
+			return res.json();
+		}).then(function (json) {
+			return json.data;
+		}).then(function (image) {
+			_this2.setState({ image: image });
+
+			return _this2.props.onUpload(image);
+		});
+	},
+	handleRemove: function handleRemove(e) {
+		var _this3 = this;
+
+		this.imgur('image/' + this.state.image.deletehash, {
+			method: 'DELETE'
+		}).then(function (res) {
+			return res.json();
+		}).then(function (json) {
+			return json.data;
+		}).then(function (data) {
+			_this3.setState({ image: null });
+
+			return _this3.props.onRemove(data);
+		});
+	},
+	render: function render() {
+		var styles = {
+			inputWrapper: {
+				position: 'relative',
+				overflow: 'hidden'
+			},
+			input: {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				right: 0,
+				bottom: 0,
+				fontSize: 100,
+				opacity: 0,
+				cursor: 'pointer'
+			}
+		};
+		return React.createElement(
+			'div',
+			{ 'class': 'container' },
+			React.createElement(
+				'button',
+				{ hidden: this.state.image, style: styles.inputWrapper },
+				React.createElement('span', { className: 'ion-image' }),
+				React.createElement('input', { type: 'file', accept: 'image/*', onChange: this.handleUpload, style: styles.input })
+			),
+			React.createElement(
+				'button',
+				{ hidden: !this.state.image, onClick: this.handleRemove },
+				React.createElement('span', { className: 'ion-close' })
 			)
 		);
 	}

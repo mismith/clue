@@ -1,3 +1,7 @@
+//import React from 'react';
+//import ReactDOM from 'react-dom';
+//import FaUpload from 'react-icons/fa/upload';
+
 let val = item => item.value || item.name;
 let LoremPixelCounter = 0;
 function LoremPixel(type, w = 225, h = 350) {
@@ -1315,15 +1319,15 @@ let ClueGame = React.createClass({
 			],
 		};
 	},
-	handleNameChange(groupIndex, itemIndex, e) {
-		if (groupIndex < 0 || itemIndex < 0) {
+	handleChange(key, value, groupIndex, itemIndex) {
+		if (arguments.length <= 2) {
 			let game = Object.assign({}, this.state.game);
-			game.value = e.target.value;
+			game[key] = value;
 
 			this.setState({game});
 		} else {
 			let groups = [].concat(this.state.groups);
-			groups[groupIndex].items[itemIndex].value = e.target.value;
+			groups[groupIndex].items[itemIndex][key] = value;
 
 			this.setState({groups});
 		}
@@ -1332,8 +1336,11 @@ let ClueGame = React.createClass({
 		return <div className="flex-row">
 			<table id="input">
 				<tbody>
-					<tr><td>Game</td></tr>
-					<tr><td><input placeholder={this.state.game.name} onChange={this.handleNameChange.bind(this, -1, -1)} /></td></tr>
+					<tr><td colspan="2">Game</td></tr>
+					<tr>
+						<td><input placeholder={this.state.game.name} onChange={e => this.handleChange('value', e.target.value)} /></td>
+						<td><ImgurUpload onUpload={data => this.handleChange('image', data.link)} onRemove={data => this.handleChange('image', null)} /></td>
+					</tr>
 				</tbody>
 			{this.state.groups.map((group, i) => 
 				<tbody key={i}>
@@ -1341,7 +1348,10 @@ let ClueGame = React.createClass({
 				{group.items.map((item, j) =>
 					<tr key={j}>
 						<td>
-							<input placeholder={item.name} onChange={this.handleNameChange.bind(this, i, j)} />
+							<input placeholder={item.name} onChange={e => this.handleChange('value', e.target.value, i, j)} />
+						</td>
+						<td>
+							<ImgurUpload onUpload={data => this.handleChange('image', data.link, i, j)} onRemove={data => this.handleChange('image', null, i, j)} />
 						</td>
 					</tr>
 				)}
@@ -1364,6 +1374,81 @@ let ClueGame = React.createClass({
 		</div>
 	},
 });
+
+let ImgurUpload = React.createClass({
+	getDefaultProps() {
+		return {
+			onUpload: () => {},
+			onRemove: () => {},
+		};
+	},
+	getInitialState() {
+		return {
+			image: null,
+		};
+	},
+
+	imgur(method, options = {}) {
+		return fetch(`https://api.imgur.com/3/${method}`, Object.assign({
+			headers: {Authorization: 'Client-ID 6c8483b3b8e6fb9'},
+		}, options));
+	},
+
+	handleUpload(e) {
+		let data = new FormData();
+		data.append('image', e.target.files[0]);
+
+		this.imgur('upload', {
+			method: 'POST',
+			body: data,
+		})
+			.then(res => res.json())
+			.then(json => json.data)
+			.then(image => {
+				this.setState({image});
+
+				return this.props.onUpload(image);
+			});
+	},
+	handleRemove(e) {
+		this.imgur(`image/${this.state.image.deletehash}`, {
+			method: 'DELETE',
+		})
+			.then(res => res.json())
+			.then(json => json.data)
+			.then(data => {
+				this.setState({image: null});
+
+				return this.props.onRemove(data);
+			});
+	},
+
+	render() {
+		let styles = {
+			inputWrapper: {
+				position: 'relative',
+				overflow: 'hidden',
+			},
+			input: {
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				right: 0,
+				bottom: 0,
+				fontSize: 100,
+				opacity: 0,
+				cursor: 'pointer',
+			},
+		};
+		return <div class="container">
+			<button hidden={this.state.image} style={styles.inputWrapper}>
+				<span className="ion-image" />
+				<input type="file" accept="image/*" onChange={this.handleUpload} style={styles.input} />
+			</button>
+			<button hidden={!this.state.image} onClick={this.handleRemove}><span className="ion-close" /></button>
+		</div>
+	}
+})
 
 ReactDOM.render(
 	<ClueGame />,
