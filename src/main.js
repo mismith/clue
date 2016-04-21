@@ -1220,7 +1220,9 @@ let ClueGame = React.createClass({
 
 		if (!this.props.id) {
 			this.props.id = this.firebase.child('games').push().key();
-			// @TODO: redirect/change hash
+
+			// change hash
+			location.hash = this.props.id;
 		}
 		this.bindAsObject(this.firebase.child('games').child(this.props.id), 'overrides');
 	},
@@ -1228,7 +1230,8 @@ let ClueGame = React.createClass({
 		this.firebase.child('games').child(this.props.id).child(path).child(key).set(value || null);
 	},
 	render() {
-		let itemsData = this.state.items.map(item => merge(item, this.state.overrides.items[item['.key']]));
+		let game  = merge(this.state.game, this.state.overrides.game || {}),
+			items = this.state.items.map(item => merge(item, (this.state.overrides.items || {})[item['.key']]));
 		return <div className="flex-row">
 			<table id="input">
 				<tbody>
@@ -1236,9 +1239,9 @@ let ClueGame = React.createClass({
 					<ClueGame.ItemInput
 						item={this.state.overrides.game}
 						default={this.state.game}
-						onChange={e => this.handleChange(`game`, 'name', e.target.value)}
-						onUpload={data => this.handleChange(`game`, 'image', {src: data.link, deletehash: data.deletehash})}
-						onRemove={data => this.handleChange(`game`, 'image', null)}
+						onChange={e => this.handleChange('game', 'name', e.target.value)}
+						onUpload={data => this.handleChange('game', 'image', {src: data.link, deletehash: data.deletehash})}
+						onRemove={data => this.handleChange('game', 'image', null)}
 					/>
 				</tbody>
 			{this.state.groups.map(group => 
@@ -1247,7 +1250,7 @@ let ClueGame = React.createClass({
 				{this.state.items.filter(item => item.group === group['.key']).map(item =>
 					<ClueGame.ItemInput
 						key={item['.key']}
-						item={this.state.overrides.items[item['.key']]}
+						item={(this.state.overrides.items || {})[item['.key']]}
 						default={item}
 						onChange={e => this.handleChange(`items/${item['.key']}`, 'name', e.target.value)}
 						onUpload={data => this.handleChange(`items/${item['.key']}`, 'image', {src: data.link, deletehash: data.deletehash})}
@@ -1258,15 +1261,15 @@ let ClueGame = React.createClass({
 			)}
 			</table>
 			<div id="content">
-				<Board game={this.state.game} items={itemsData} />
+				<Board game={game} items={items} />
 				<div id="sheets">
 				{[1,2,3,4,5,6,7,8].map(i => 
-					<Sheet key={'s'+i} game={merge(this.state.game, this.state.overrides.game)} groups={this.state.groups} items={itemsData} />
+					<Sheet key={'s'+i} game={game} groups={this.state.groups} items={items} />
 				)}
 				</div>
 				<div id="cards">
-				{this.state.items.map(item => 
-					<Card key={item['.key']} item={merge(item, this.state.overrides.items[item['.key']])} />
+				{items.map(item => 
+					<Card key={item['.key']} game={game} item={item} />
 				)}
 				</div>
 			</div>
@@ -1365,6 +1368,6 @@ let ImgurUpload = React.createClass({
 
 
 ReactDOM.render(
-	<ClueGame id={location.hash.substring(1)} />,
+	<ClueGame id={location.hash.replace(/^#?/, '')} />,
 	document.getElementById('app')
 );

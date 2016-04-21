@@ -3,7 +3,7 @@
 	--outline-color: #000;
 	--start-color: #FC0;
 	--grid-color: var(--outline-color);
-	--door-color: #bbb;
+	--door-color: #0C0;
 	--room-color: #ddd;
 }
 * { box-sizing: border-box; }
@@ -79,15 +79,10 @@ body {
 
 			& div {
 				display: inline-block;
-				background-color: rgba(255,255,255,.5);
+				background-color: rgba(255,255,255,.75);
 				padding: 2px 6px;
 				border-radius: 3px;
 			}
-
-			&.door-top { border-top-style: dotted; }
-			&.door-left { border-left-style: dotted; }
-			&.door-right { border-right-style: dotted; }
-			&.door-bottom { border-bottom-style: dotted; }
 
 			&.border-top { border-top-width: 4px; }
 			&.border-left { border-left-width: 4px; }
@@ -133,7 +128,7 @@ body {
 
 			&:after {
 				content: "";
-				background-color: var(--door-color);
+				background-color: var(--outline-color);
 				min-width: var(--size);
 				min-height: var(--size);
 			}
@@ -194,7 +189,7 @@ body {
 		}
 		&:after {
 			content: "";
-			background-color: var(--door-color);
+			background-color: var(--outline-color);
 			min-width: var(--size);
 			min-height: var(--size);
 		}
