@@ -15,7 +15,8 @@
     "watch:js": "npm run build:js -- --watch",
     "watch": "npm run watch:html & npm run watch:css & npm run watch:js",
     "serve": "browser-sync start --server --serveStatic dist/ --files 'dist/**/*' --no-ghost-mode --no-notify --no-ui",
-    "start": "npm run watch & npm run serve"
+    "start": "npm run watch & npm run serve",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "author": "Murray Smith <murray@mismith.info> (http://mismith.info)",
   "license": "ISC",
