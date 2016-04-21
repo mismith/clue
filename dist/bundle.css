@@ -17,7 +17,7 @@ body {
 	display: flex;
 }
 
-#clue {
+#app {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -111,10 +111,10 @@ body {
 .sheet tr.header { background-color: #ddd; font-weight: bold; }
 .sheet tr.header td:first-child div { --size: 16px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; }
 .sheet tr.header td:first-child div:after { content: ""; background-color: #bbb; min-width: var(--size); min-height: var(--size); }
-.sheet tr.header td:first-child div.character {}
-.sheet tr.header td:first-child div.character:after { border-radius: 50%; }
-.sheet tr.header td:first-child div.weapon {}
-.sheet tr.header td:first-child div.weapon:after { box-sizing: border-box; border: solid calc(var(--size)/2) #ddd; border-bottom-color: transparent; border-top-width: 0; border-bottom-width: calc(var(--size)*5/6); margin-top: calc(var(--size)*-1/6); }
+.sheet tr.header td:first-child div.characters {}
+.sheet tr.header td:first-child div.characters:after { border-radius: 50%; }
+.sheet tr.header td:first-child div.weapons {}
+.sheet tr.header td:first-child div.weapons:after { box-sizing: border-box; border: solid calc(var(--size)/2) #ddd; border-bottom-color: transparent; border-top-width: 0; border-bottom-width: calc(var(--size)*5/6); margin-top: calc(var(--size)*-1/6); }
 .sheet td { height: 24px; min-width: 32px; vertical-align: middle; padding: 2px 5px; border: solid 1px #000; border-top-width: 0; border-left-width: 0; }
 .sheet td div { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card {
@@ -140,11 +140,11 @@ body {
 .card header:after, .card footer:after { content: ""; background-color: #bbb; min-width: var(--size); min-height: var(--size); }
 .card footer { -webkit-transform: rotate(180deg); transform: rotate(180deg); }
 .card figure { -webkit-box-flex: 1; -webkit-flex-grow: 1; -ms-flex-positive: 1; flex-grow: 1; background: transparent center center no-repeat; background-size: contain; margin: var(--size) 0; }
-.card.character {}
-.card.character header,
-		.card.character footer {}
-.card.character header:after, .card.character footer:after { border-radius: 50%; }
-.card.weapon {}
-.card.weapon header,
-		.card.weapon footer {}
-.card.weapon header:after, .card.weapon footer:after { box-sizing: border-box; border: solid calc(var(--size)/2) white; border-bottom-color: transparent; border-top-width: 0; border-bottom-width: calc(var(--size)*5/6); margin-top: calc(var(--size)*-1/6); }
+.card.characters {}
+.card.characters header,
+		.card.characters footer {}
+.card.characters header:after, .card.characters footer:after { border-radius: 50%; }
+.card.weapons {}
+.card.weapons header,
+		.card.weapons footer {}
+.card.weapons header:after, .card.weapons footer:after { box-sizing: border-box; border: solid calc(var(--size)/2) white; border-bottom-color: transparent; border-top-width: 0; border-bottom-width: calc(var(--size)*5/6); margin-top: calc(var(--size)*-1/6); }

@@ -22,7 +22,7 @@ body {
 	display: flex;
 }
 
-#clue {
+#app {
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -137,12 +137,12 @@ body {
 				min-width: var(--size);
 				min-height: var(--size);
 			}
-			&.character {
+			&.characters {
 				&:after {
 					border-radius: 50%;
 				}
 			}
-			&.weapon {
+			&.weapons {
 				&:after {
 					box-sizing: border-box;
 					border: solid calc(var(--size)/2) var(--room-color);
@@ -208,7 +208,7 @@ body {
 		background-size: contain;
 		margin: var(--size) 0;
 	}
-	&.character {
+	&.characters {
 		& header,
 		& footer {
 			&:after {
@@ -216,7 +216,7 @@ body {
 			}
 		}
 	}
-	&.weapon {
+	&.weapons {
 		& header,
 		& footer {
 			&:after {

@@ -2,25 +2,7 @@
 //import ReactDOM from 'react-dom';
 //import FaUpload from 'react-icons/fa/upload';
 
-let val = item => item.value || item.name;
-let LoremPixelCounter = 0;
-function LoremPixel(type, w = 225, h = 350) {
-	let image = '';
-	image = '//lorempixel.com/225/350/';
-	switch(type) {
-		case 'character':
-			image += 'people/';
-			break;
-		case 'weapon':
-			image += 'abstract/';
-			break;
-		case 'room':
-			image += 'city/';
-			break;
-	}
-	image += (++LoremPixelCounter % 9) + 1;
-	return image;
-}
+let getName = item => item ? item.name || '' : '';
 
 
 let Board = props =>
@@ -59,15 +41,10 @@ let Board = props =>
 			<tr>
 				<td></td>
 				<td></td>
-				<td colSpan="5" rowSpan="6" className="room" style={{backgroundImage: `url(${props.groups[2].items[0].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[0])}
-					</div>
-				</td>
+				<Board.Room defaults={props.defaults.conservatory} overrides={props.overrides.items.conservatory} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
-				<td colSpan="5" rowSpan="6" className="room" style={{backgroundImage: `url(${props.groups[2].items[1].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[1])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.billiard} overrides={props.overrides.items.billiard} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -76,9 +53,7 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td colSpan="4" rowSpan="7" className="room" style={{backgroundImage: `url(${props.groups[2].items[3].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[3])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.study} overrides={props.overrides.items.study} colSpan="4" rowSpan="7" />
 				<td></td>
 			</tr>
 			<tr>
@@ -87,9 +62,7 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td colSpan="5" rowSpan="6" className="room" style={{backgroundImage: `url(${props.groups[2].items[2].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[2])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.library} overrides={props.overrides.items.library} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -186,9 +159,7 @@ let Board = props =>
 			<tr>
 				<td></td>
 				<td></td>
-				<td colSpan="7" rowSpan="8" className="room" style={{backgroundImage: `url(${props.groups[2].items[4].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[4])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.ball} overrides={props.overrides.items.ball} colSpan="7" rowSpan="8" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -213,21 +184,9 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td colSpan="7" rowSpan="5" className="room" style={{backgroundImage: `url(${props.game.image || LoremPixel()})`}}>
-					<div>{val(props.game)}</div>
-				</td>
+				<Board.Room defaults={props.game} overrides={props.overrides.game} colSpan="7" rowSpan="5" />
 				<td></td>
-				<td colSpan="7" rowSpan="6" className="room" style={{backgroundImage: `url(${props.groups[2].items[5].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[5])}</div>
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<Board.Room defaults={props.defaults.hall} overrides={props.overrides.items.hall} colSpan="7" rowSpan="6" />
 				<td></td>
 			</tr>
 			<tr>
@@ -261,6 +220,14 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -302,9 +269,7 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td colSpan="7" rowSpan="8" className="room" style={{backgroundImage: `url(${props.groups[2].items[7].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[7])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.dining} overrides={props.overrides.items.dining} colSpan="7" rowSpan="8" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -330,17 +295,13 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td colSpan="6" rowSpan="7" className="room" style={{backgroundImage: `url(${props.groups[2].items[8].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[8])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.lounge} overrides={props.overrides.items.lounge} colSpan="6" rowSpan="7" />
 				<td></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td></td>
-				<td colSpan="6" rowSpan="6" className="room" style={{backgroundImage: `url(${props.groups[2].items[6].image || LoremPixel(props.groups[2].type)})`}}>
-					<div>{val(props.groups[2].items[6])}</div>
-				</td>
+				<Board.Room defaults={props.defaults.kitchen} overrides={props.overrides.items.kitchen} colSpan="6" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -1153,42 +1114,44 @@ let Board = props =>
 		</table>
 	</div>
 
+Board.Room = props =>
+	<td className="room" style={{backgroundImage: `url(${props.overrides.image || props.defaults.image || ''})`}} {...props}>
+		<div>{props.overrides.name || props.defaults.name}</div>
+	</td>
+
 
 let Sheet = props =>
 	<div className="sheet">
 		<header>
-			<span>{val(props.game)}</span>
+			<span>{props.overrides.game.name || props.game.name}</span>
 		</header>
 		<table cellSpacing="0" cellPadding="0">
-		{props.groups.map((group, i) =>
-			<Sheet.Group key={i} name={group.name} type={group.type} items={group.items} />
+		{props.groups.map(group =>
+			<Sheet.Group key={group['.key']} group={group} items={props.items.filter(item => item.group === group['.key'])} overrides={props.overrides} />
 		)}
 		</table>
 	</div>
 
 Sheet.Group = props =>
 	<tbody>
-		<Sheet.Row.Header name={props.name} type={props.type} />
-	{props.items.map((item, i) => 
-		<Sheet.Row key={i} item={item} />
+		<tr className="header">
+			<td><div className={props.group['.key']}>{props.group.name}</div></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	{props.items.map(item => 
+		<Sheet.Row key={item['.key']} defaults={item} overrides={props.overrides.items[item['.key']]} />
 	)}
 	</tbody>
 
 Sheet.Row = props =>
 	<tr>
-		<td><div>{val(props.item)}</div></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-	</tr>
-
-Sheet.Row.Header = props =>
-	<tr className="header">
-		<td><div className={props.type}>{props.name}</div></td>
+		<td><div>{props.overrides.name || props.defaults.name}</div></td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -1199,180 +1162,117 @@ Sheet.Row.Header = props =>
 	</tr>
 
 
-let Card = props => {
-	let image = props.item.image || LoremPixel(props.type);
-
-	return (
-	<div className={`card ${props.type}`}>
+let Card = props =>
+	<div className={`card ${props.item.group}`}>
 		<header>
-			<div>{val(props.item)}</div>
+			<div>{props.item.name}</div>
 		</header>
-		<figure style={{backgroundImage: `url(${image})`}}></figure>
+		<figure style={{backgroundImage: `url(${props.item.image || ''})`}}></figure>
 		<footer>
-			<div>{val(props.item)}</div>
+			<div>{props.item.name}</div>
 		</footer>
 	</div>
-	)
-}
 
 
 let ClueGame = React.createClass({
+	mixins: [
+		ReactFireMixin,
+	],
 	getInitialState() {
 		return {
-			game: {
-				name: 'Clue',
+			game: {},
+			groups: [],
+			items: [],
+			rooms: {},
+			overrides: {
+				game: {},
+				items: {},
 			},
-			groups: [
-				{
-					name: 'Who',
-					type: 'character',
-					items: [
-						{
-							name: 'Mr. Green',
-						},
-						{
-							name: 'Colonel Mustard',
-						},
-						{
-							name: 'Mrs. Peacock',
-						},
-						{
-							name: 'Professor Plum',
-						},
-						{
-							name: 'Miss Scarlet',
-						},
-						{
-							name: 'Mrs. White',
-						},
-						{
-							name: '',
-						},
-						{
-							name: '',
-						},
-					],
-				},
-				{
-					name: 'How',
-					type: 'weapon',
-					items: [
-						{
-							name: 'Candlestick',
-						},
-						{
-							name: 'Knife',
-						},
-						{
-							name: 'Lead Pipe',
-						},
-						{
-							name: 'Poison',
-						},
-						{
-							name: 'Revolver',
-						},
-						{
-							name: 'Rope',
-						},
-						{
-							name: 'Wrench',
-						},
-						{
-							name: '',
-						},
-					],
-				},
-				{
-					name: 'Where',
-					type: 'room',
-					items: [
-						{
-							name: 'Conservatory',
-						},
-						{
-							name: 'Billiard Room',
-						},
-						{
-							name: 'Library',
-						},
-						{
-							name: 'Study',
-						},
-						{
-							name: 'Ballroom',
-						},
-						{
-							name: 'Hall',
-						},
-						{
-							name: 'Kitchen',
-						},
-						{
-							name: 'Dining Room',
-						},
-						{
-							name: 'Lounge',
-						},
-					],
-				},
-			],
 		};
 	},
-	handleChange(key, value, groupIndex, itemIndex) {
-		if (arguments.length <= 2) {
-			let game = Object.assign({}, this.state.game);
-			game[key] = value;
+	componentWillMount() {
+		this.firebase = new Firebase('https://mismith.firebaseio.com/clue');
 
-			this.setState({game});
-		} else {
-			let groups = [].concat(this.state.groups);
-			groups[groupIndex].items[itemIndex][key] = value;
+		let defaults = this.firebase.child('defaults');
+		this.bindAsObject(defaults.child('game'), 'game');
+		this.bindAsArray(defaults.child('groups'), 'groups');
+		this.bindAsArray(defaults.child('items'), 'items');
+		this.bindAsObject(defaults.child('items'), 'rooms');
 
-			this.setState({groups});
+		if (!this.props.id) {
+			this.props.id = this.firebase.child('games').push().key();
+			// @TODO: redirect/change hash
 		}
+		this.bindAsObject(this.firebase.child('games').child(this.props.id), 'overrides');
+	},
+	handleChange(path, key, value) {
+		this.firebase.child('games').child(this.props.id).child(path).child(key).set(value);
 	},
 	render() {
 		return <div className="flex-row">
 			<table id="input">
 				<tbody>
 					<tr><td colspan="2">Game</td></tr>
-					<tr>
-						<td><input placeholder={this.state.game.name} onChange={e => this.handleChange('value', e.target.value)} /></td>
-						<td><ImgurUpload onUpload={data => this.handleChange('image', data.link)} onRemove={data => this.handleChange('image', null)} /></td>
-					</tr>
+					<ClueGame.ItemInput
+						item={this.state.overrides.game}
+						default={this.state.game}
+						onChange={e => this.handleChange(`game`, 'name', e.target.value)}
+						onUpload={data => this.handleChange(`game`, 'image', data.link)}
+						onRemove={data => this.handleChange(`game`, 'image', null)}
+					/>
 				</tbody>
-			{this.state.groups.map((group, i) => 
-				<tbody key={i}>
+			{this.state.groups.map(group => 
+				<tbody key={group['.key']}>
 					<tr><td>{group.name}</td></tr>
-				{group.items.map((item, j) =>
-					<tr key={j}>
-						<td>
-							<input placeholder={item.name} onChange={e => this.handleChange('value', e.target.value, i, j)} />
-						</td>
-						<td>
-							<ImgurUpload onUpload={data => this.handleChange('image', data.link, i, j)} onRemove={data => this.handleChange('image', null, i, j)} />
-						</td>
-					</tr>
+				{this.state.items.filter(item => item.group === group['.key']).map(item =>
+					<ClueGame.ItemInput
+						key={item['.key']}
+						item={this.state.overrides.items[item['.key']]}
+						default={item}
+						onChange={e => this.handleChange(`items/${item['.key']}`, 'name', e.target.value)}
+						onUpload={data => this.handleChange(`items/${item['.key']}`, 'image', data.link)}
+						onRemove={data => this.handleChange(`items/${item['.key']}`, 'image', null)}
+					/>
 				)}
 				</tbody>
 			)}
 			</table>
 			<div id="content">
-				<Board game={this.state.game} groups={this.state.groups} />
+				<Board game={this.state.game} defaults={this.state.rooms} overrides={this.state.overrides} />
 				<div id="sheets">
-				{this.state.groups[0].items.map((item, i) => 
-					<Sheet key={i} game={this.state.game} groups={this.state.groups} />
+				{[1,2,3,4,5,6,7,8].map(i => 
+					<Sheet key={'s'+i} game={this.state.game} groups={this.state.groups} items={this.state.items} overrides={this.state.overrides} />
 				)}
 				</div>
 				<div id="cards">
-				{this.state.groups.map((group, i) => group.items.map((item, j) => 
-					<Card key={i+':'+j} type={group.type} item={item} />
-				))}
+				{this.state.items.map(item => 
+					<Card key={item['.key']} item={this.state.overrides.items[item['.key']] || item} />
+				)}
 				</div>
 			</div>
 		</div>
 	},
+});
+ClueGame.ItemInput = React.createClass({
+	getDefaultProps() {
+		return {
+			item: {},
+			default: {},
+			onChange: () => {},
+			onUpload: () => {},
+			onRemove: () => {},
+		};
+	},
+	render() {
+		return <tr>
+			<td>
+				<input value={this.props.item.name} placeholder={this.props.default.name} onChange={this.props.onChange} />
+			</td>
+			<td>
+				<ImgurUpload onUpload={this.props.onUpload} onRemove={this.props.onRemove} />
+			</td>
+		</tr>
+	}
 });
 
 let ImgurUpload = React.createClass({
@@ -1451,6 +1351,6 @@ let ImgurUpload = React.createClass({
 })
 
 ReactDOM.render(
-	<ClueGame />,
-	document.getElementById('clue')
+	<ClueGame id={location.hash.substring(1)} />,
+	document.getElementById('app')
 );
