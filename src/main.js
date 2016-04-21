@@ -2,7 +2,10 @@
 //import ReactDOM from 'react-dom';
 //import FaUpload from 'react-icons/fa/upload';
 
-let getName = item => item ? item.name || '' : '';
+let merge = function(...args) {
+	args.unshift({});
+	return Object.assign.apply(this, args.map(arg => arg || {}));
+};
 
 
 let Board = props =>
@@ -41,30 +44,19 @@ let Board = props =>
 			<tr>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.conservatory} overrides={props.overrides.items.conservatory} colSpan="5" rowSpan="6" />
+				<Board.Room item={props.items.find(item => item['.key'] === 'conservatory')} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.billiard} overrides={props.overrides.items.billiard} colSpan="5" rowSpan="6" />
-				<td></td>
-				<td></td>
-				<td></td>
+				<Board.Room item={props.items.find(item => item['.key'] === 'billiard')} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.study} overrides={props.overrides.items.study} colSpan="4" rowSpan="7" />
-				<td></td>
-			</tr>
-			<tr>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td></td>
-				<td></td>
-				<Board.Room defaults={props.defaults.library} overrides={props.overrides.items.library} colSpan="5" rowSpan="6" />
-				<td></td>
-				<td></td>
+				<Board.Room item={props.items.find(item => item['.key'] === 'study')} colSpan="4" rowSpan="7" />
 				<td></td>
 			</tr>
 			<tr>
@@ -73,6 +65,7 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
+				<Board.Room item={props.items.find(item => item['.key'] === 'library')} colSpan="5" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -116,6 +109,16 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -159,7 +162,7 @@ let Board = props =>
 			<tr>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.ball} overrides={props.overrides.items.ball} colSpan="7" rowSpan="8" />
+				<Board.Room item={props.items.find(item => item['.key'] === 'ball')} colSpan="7" rowSpan="8" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -184,17 +187,9 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.game} overrides={props.overrides.game} colSpan="7" rowSpan="5" />
+				<Board.Room item={props.game} colSpan="7" rowSpan="5" />
 				<td></td>
-				<Board.Room defaults={props.defaults.hall} overrides={props.overrides.items.hall} colSpan="7" rowSpan="6" />
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<Board.Room item={props.items.find(item => item['.key'] === 'hall')} colSpan="7" rowSpan="6" />
 				<td></td>
 			</tr>
 			<tr>
@@ -228,6 +223,14 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
@@ -269,7 +272,7 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.dining} overrides={props.overrides.items.dining} colSpan="7" rowSpan="8" />
+				<Board.Room item={props.items.find(item => item['.key'] === 'dining')} colSpan="7" rowSpan="8" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -295,13 +298,13 @@ let Board = props =>
 				<td></td>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.lounge} overrides={props.overrides.items.lounge} colSpan="6" rowSpan="7" />
+				<Board.Room item={props.items.find(item => item['.key'] === 'lounge')} colSpan="6" rowSpan="7" />
 				<td></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td></td>
-				<Board.Room defaults={props.defaults.kitchen} overrides={props.overrides.items.kitchen} colSpan="6" rowSpan="6" />
+				<Board.Room item={props.items.find(item => item['.key'] === 'kitchen')} colSpan="6" rowSpan="6" />
 				<td></td>
 				<td></td>
 				<td></td>
@@ -1113,24 +1116,37 @@ let Board = props =>
 			</tr></tbody>
 		</table>
 	</div>
+Board.defaultProps = {
+	items: {},
+};
 
-Board.Room = props =>
-	<td className="room" style={{backgroundImage: `url(${props.overrides.image || props.defaults.image || ''})`}} {...props}>
-		<div>{props.overrides.name || props.defaults.name}</div>
+Board.Room = props => {
+	let {item, ...attrs} = props;
+	return <td className="room" style={{backgroundImage: `url(${_.get(item, 'image.src') || ''})`}} {...attrs}>
+		<div>{item.name}</div>
 	</td>
+};
+Board.Room.defaultProps = {
+	item: {},
+};
 
 
 let Sheet = props =>
 	<div className="sheet">
 		<header>
-			<span>{props.overrides.game.name || props.game.name}</span>
+			<span>{props.game.name}</span>
 		</header>
 		<table cellSpacing="0" cellPadding="0">
 		{props.groups.map(group =>
-			<Sheet.Group key={group['.key']} group={group} items={props.items.filter(item => item.group === group['.key'])} overrides={props.overrides} />
+			<Sheet.Group key={group['.key']} group={group} items={props.items.filter(item => item.group === group['.key'])} />
 		)}
 		</table>
 	</div>
+Sheet.defaultProps = {
+	game:   {},
+	groups: [],
+	items:  [],
+};
 
 Sheet.Group = props =>
 	<tbody>
@@ -1144,22 +1160,23 @@ Sheet.Group = props =>
 			<td></td>
 			<td></td>
 		</tr>
-	{props.items.map(item => 
-		<Sheet.Row key={item['.key']} defaults={item} overrides={props.overrides.items[item['.key']]} />
+	{props.items.map(item =>
+		<tr key={item['.key']}>
+			<td><div>{item.name}</div></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 	)}
 	</tbody>
-
-Sheet.Row = props =>
-	<tr>
-		<td><div>{props.overrides.name || props.defaults.name}</div></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-	</tr>
+Sheet.Group.defaultProps = {
+	group: {},
+	items: [],
+};
 
 
 let Card = props =>
@@ -1167,11 +1184,14 @@ let Card = props =>
 		<header>
 			<div>{props.item.name}</div>
 		</header>
-		<figure style={{backgroundImage: `url(${props.item.image || ''})`}}></figure>
+		<figure style={{backgroundImage: `url(${_.get(props, 'item.image.src') || ''})`}}></figure>
 		<footer>
 			<div>{props.item.name}</div>
 		</footer>
 	</div>
+Card.defaultProps = {
+	item: {},
+};
 
 
 let ClueGame = React.createClass({
@@ -1180,12 +1200,12 @@ let ClueGame = React.createClass({
 	],
 	getInitialState() {
 		return {
-			game: {},
+			game:   {},
 			groups: [],
-			items: [],
-			rooms: {},
+			items:  [],
+			rooms:  {},
 			overrides: {
-				game: {},
+				game:  {},
 				items: {},
 			},
 		};
@@ -1197,7 +1217,6 @@ let ClueGame = React.createClass({
 		this.bindAsObject(defaults.child('game'), 'game');
 		this.bindAsArray(defaults.child('groups'), 'groups');
 		this.bindAsArray(defaults.child('items'), 'items');
-		this.bindAsObject(defaults.child('items'), 'rooms');
 
 		if (!this.props.id) {
 			this.props.id = this.firebase.child('games').push().key();
@@ -1206,9 +1225,10 @@ let ClueGame = React.createClass({
 		this.bindAsObject(this.firebase.child('games').child(this.props.id), 'overrides');
 	},
 	handleChange(path, key, value) {
-		this.firebase.child('games').child(this.props.id).child(path).child(key).set(value);
+		this.firebase.child('games').child(this.props.id).child(path).child(key).set(value || null);
 	},
 	render() {
+		let itemsData = this.state.items.map(item => merge(item, this.state.overrides.items[item['.key']]));
 		return <div className="flex-row">
 			<table id="input">
 				<tbody>
@@ -1217,7 +1237,7 @@ let ClueGame = React.createClass({
 						item={this.state.overrides.game}
 						default={this.state.game}
 						onChange={e => this.handleChange(`game`, 'name', e.target.value)}
-						onUpload={data => this.handleChange(`game`, 'image', data.link)}
+						onUpload={data => this.handleChange(`game`, 'image', {src: data.link, deletehash: data.deletehash})}
 						onRemove={data => this.handleChange(`game`, 'image', null)}
 					/>
 				</tbody>
@@ -1230,7 +1250,7 @@ let ClueGame = React.createClass({
 						item={this.state.overrides.items[item['.key']]}
 						default={item}
 						onChange={e => this.handleChange(`items/${item['.key']}`, 'name', e.target.value)}
-						onUpload={data => this.handleChange(`items/${item['.key']}`, 'image', data.link)}
+						onUpload={data => this.handleChange(`items/${item['.key']}`, 'image', {src: data.link, deletehash: data.deletehash})}
 						onRemove={data => this.handleChange(`items/${item['.key']}`, 'image', null)}
 					/>
 				)}
@@ -1238,54 +1258,50 @@ let ClueGame = React.createClass({
 			)}
 			</table>
 			<div id="content">
-				<Board game={this.state.game} defaults={this.state.rooms} overrides={this.state.overrides} />
+				<Board game={this.state.game} items={itemsData} />
 				<div id="sheets">
 				{[1,2,3,4,5,6,7,8].map(i => 
-					<Sheet key={'s'+i} game={this.state.game} groups={this.state.groups} items={this.state.items} overrides={this.state.overrides} />
+					<Sheet key={'s'+i} game={merge(this.state.game, this.state.overrides.game)} groups={this.state.groups} items={itemsData} />
 				)}
 				</div>
 				<div id="cards">
 				{this.state.items.map(item => 
-					<Card key={item['.key']} item={this.state.overrides.items[item['.key']] || item} />
+					<Card key={item['.key']} item={merge(item, this.state.overrides.items[item['.key']])} />
 				)}
 				</div>
 			</div>
 		</div>
 	},
 });
-ClueGame.ItemInput = React.createClass({
-	getDefaultProps() {
-		return {
-			item: {},
-			default: {},
-			onChange: () => {},
-			onUpload: () => {},
-			onRemove: () => {},
-		};
-	},
-	render() {
-		return <tr>
-			<td>
-				<input value={this.props.item.name} placeholder={this.props.default.name} onChange={this.props.onChange} />
-			</td>
-			<td>
-				<ImgurUpload onUpload={this.props.onUpload} onRemove={this.props.onRemove} />
-			</td>
-		</tr>
-	}
-});
+
+ClueGame.ItemInput = props =>
+	<tr>
+		<td>
+			<input value={props.item.name} placeholder={props.default.name} onChange={props.onChange} />
+		</td>
+		<td>
+			<ImgurUpload image={props.item.image} onUpload={props.onUpload} onRemove={props.onRemove} />
+		</td>
+	</tr>
+ClueGame.ItemInput.defaultProps = {
+	item:     {},
+	default:  {},
+	onChange: () => {},
+	onUpload: () => {},
+	onRemove: () => {},
+};
+
 
 let ImgurUpload = React.createClass({
 	getDefaultProps() {
 		return {
+			image:    null,
 			onUpload: () => {},
 			onRemove: () => {},
 		};
 	},
-	getInitialState() {
-		return {
-			image: null,
-		};
+	shouldComponentUpdate(nextProps, nextState) {
+		return this.props.image !== nextProps.image;
 	},
 
 	imgur(method, options = {}) {
@@ -1304,23 +1320,18 @@ let ImgurUpload = React.createClass({
 		})
 			.then(res => res.json())
 			.then(json => json.data)
-			.then(image => {
-				this.setState({image});
-
-				return this.props.onUpload(image);
-			});
+			.then(image => this.props.onUpload(image));
+	},
+	handleEdit(e) {
+		window.open(`https://imgur.com/edit/advanced?deletehash=${this.props.image.deletehash}`);
 	},
 	handleRemove(e) {
-		this.imgur(`image/${this.state.image.deletehash}`, {
+		this.imgur(`image/${this.props.image.deletehash}`, {
 			method: 'DELETE',
 		})
 			.then(res => res.json())
 			.then(json => json.data)
-			.then(data => {
-				this.setState({image: null});
-
-				return this.props.onRemove(data);
-			});
+			.then(data => this.props.onRemove(data));
 	},
 
 	render() {
@@ -1340,15 +1351,18 @@ let ImgurUpload = React.createClass({
 				cursor: 'pointer',
 			},
 		};
+		let hasImage = !!this.props.image;
 		return <div class="container">
-			<button hidden={this.state.image} style={styles.inputWrapper}>
+			<button hidden={hasImage} style={styles.inputWrapper}>
 				<span className="ion-image" />
 				<input type="file" accept="image/*" onChange={this.handleUpload} style={styles.input} />
 			</button>
-			<button hidden={!this.state.image} onClick={this.handleRemove}><span className="ion-close" /></button>
+			<button hidden={!hasImage} onClick={this.handleEdit}><span className="ion-edit" /></button>
+			<button hidden={!hasImage} onClick={this.handleRemove}><span className="ion-android-close" /></button>
 		</div>
-	}
+	},
 })
+
 
 ReactDOM.render(
 	<ClueGame id={location.hash.substring(1)} />,
