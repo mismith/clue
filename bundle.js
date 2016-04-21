@@ -1,33 +1,14 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //import React from 'react';
 //import ReactDOM from 'react-dom';
 //import FaUpload from 'react-icons/fa/upload';
 
-var val = function val(item) {
-	return item.value || item.name;
+var getName = function getName(item) {
+	return item ? item.name || '' : '';
 };
-var LoremPixelCounter = 0;
-function LoremPixel(type) {
-	var w = arguments.length <= 1 || arguments[1] === undefined ? 225 : arguments[1];
-	var h = arguments.length <= 2 || arguments[2] === undefined ? 350 : arguments[2];
-
-	var image = '';
-	image = '//lorempixel.com/225/350/';
-	switch (type) {
-		case 'character':
-			image += 'people/';
-			break;
-		case 'weapon':
-			image += 'abstract/';
-			break;
-		case 'room':
-			image += 'city/';
-			break;
-	}
-	image += ++LoremPixelCounter % 9 + 1;
-	return image;
-}
 
 var Board = function Board(props) {
 	return React.createElement(
@@ -75,26 +56,10 @@ var Board = function Board(props) {
 					null,
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '5', rowSpan: '6', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[0].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[0])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.conservatory, overrides: props.overrides.items.conservatory, colSpan: '5', rowSpan: '6' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '5', rowSpan: '6', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[1].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[1])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.billiard, overrides: props.overrides.items.billiard, colSpan: '5', rowSpan: '6' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
@@ -103,15 +68,7 @@ var Board = function Board(props) {
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '4', rowSpan: '7', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[3].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[3])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.study, overrides: props.overrides.items.study, colSpan: '4', rowSpan: '7' }),
 					React.createElement('td', null)
 				),
 				React.createElement(
@@ -122,15 +79,7 @@ var Board = function Board(props) {
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '5', rowSpan: '6', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[2].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[2])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.library, overrides: props.overrides.items.library, colSpan: '5', rowSpan: '6' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null)
@@ -241,15 +190,7 @@ var Board = function Board(props) {
 					null,
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '7', rowSpan: '8', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[4].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[4])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.ball, overrides: props.overrides.items.ball, colSpan: '7', rowSpan: '8' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
@@ -276,25 +217,9 @@ var Board = function Board(props) {
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '7', rowSpan: '5', className: 'room', style: { backgroundImage: 'url(' + (props.game.image || LoremPixel()) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.game)
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.game, overrides: props.overrides.game, colSpan: '7', rowSpan: '5' }),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '7', rowSpan: '6', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[5].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[5])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.hall, overrides: props.overrides.items.hall, colSpan: '7', rowSpan: '6' }),
 					React.createElement('td', null)
 				),
 				React.createElement(
@@ -391,15 +316,7 @@ var Board = function Board(props) {
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '7', rowSpan: '8', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[7].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[7])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.dining, overrides: props.overrides.items.dining, colSpan: '7', rowSpan: '8' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
@@ -427,15 +344,7 @@ var Board = function Board(props) {
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '6', rowSpan: '7', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[8].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[8])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.lounge, overrides: props.overrides.items.lounge, colSpan: '6', rowSpan: '7' }),
 					React.createElement('td', null)
 				),
 				React.createElement(
@@ -443,15 +352,7 @@ var Board = function Board(props) {
 					null,
 					React.createElement('td', null),
 					React.createElement('td', null),
-					React.createElement(
-						'td',
-						{ colSpan: '6', rowSpan: '6', className: 'room', style: { backgroundImage: 'url(' + (props.groups[2].items[6].image || LoremPixel(props.groups[2].type)) + ')' } },
-						React.createElement(
-							'div',
-							null,
-							val(props.groups[2].items[6])
-						)
-					),
+					React.createElement(Board.Room, { defaults: props.defaults.kitchen, overrides: props.overrides.items.kitchen, colSpan: '6', rowSpan: '6' }),
 					React.createElement('td', null),
 					React.createElement('td', null),
 					React.createElement('td', null),
@@ -1367,6 +1268,18 @@ var Board = function Board(props) {
 	);
 };
 
+Board.Room = function (props) {
+	return React.createElement(
+		'td',
+		_extends({ className: 'room', style: { backgroundImage: 'url(' + (props.overrides.image || props.defaults.image || '') + ')' } }, props),
+		React.createElement(
+			'div',
+			null,
+			props.overrides.name || props.defaults.name
+		)
+	);
+};
+
 var Sheet = function Sheet(props) {
 	return React.createElement(
 		'div',
@@ -1377,14 +1290,16 @@ var Sheet = function Sheet(props) {
 			React.createElement(
 				'span',
 				null,
-				val(props.game)
+				props.overrides.game.name || props.game.name
 			)
 		),
 		React.createElement(
 			'table',
 			{ cellSpacing: '0', cellPadding: '0' },
-			props.groups.map(function (group, i) {
-				return React.createElement(Sheet.Group, { key: i, name: group.name, type: group.type, items: group.items });
+			props.groups.map(function (group) {
+				return React.createElement(Sheet.Group, { key: group['.key'], group: group, items: props.items.filter(function (item) {
+						return item.group === group['.key'];
+					}), overrides: props.overrides });
 			})
 		)
 	);
@@ -1394,9 +1309,28 @@ Sheet.Group = function (props) {
 	return React.createElement(
 		'tbody',
 		null,
-		React.createElement(Sheet.Row.Header, { name: props.name, type: props.type }),
-		props.items.map(function (item, i) {
-			return React.createElement(Sheet.Row, { key: i, item: item });
+		React.createElement(
+			'tr',
+			{ className: 'header' },
+			React.createElement(
+				'td',
+				null,
+				React.createElement(
+					'div',
+					{ className: props.group['.key'] },
+					props.group.name
+				)
+			),
+			React.createElement('td', null),
+			React.createElement('td', null),
+			React.createElement('td', null),
+			React.createElement('td', null),
+			React.createElement('td', null),
+			React.createElement('td', null),
+			React.createElement('td', null)
+		),
+		props.items.map(function (item) {
+			return React.createElement(Sheet.Row, { key: item['.key'], defaults: item, overrides: props.overrides.items[item['.key']] });
 		})
 	);
 };
@@ -1411,30 +1345,7 @@ Sheet.Row = function (props) {
 			React.createElement(
 				'div',
 				null,
-				val(props.item)
-			)
-		),
-		React.createElement('td', null),
-		React.createElement('td', null),
-		React.createElement('td', null),
-		React.createElement('td', null),
-		React.createElement('td', null),
-		React.createElement('td', null),
-		React.createElement('td', null)
-	);
-};
-
-Sheet.Row.Header = function (props) {
-	return React.createElement(
-		'tr',
-		{ className: 'header' },
-		React.createElement(
-			'td',
-			null,
-			React.createElement(
-				'div',
-				{ className: props.type },
-				props.name
+				props.overrides.name || props.defaults.name
 			)
 		),
 		React.createElement('td', null),
@@ -1448,28 +1359,26 @@ Sheet.Row.Header = function (props) {
 };
 
 var Card = function Card(props) {
-	var image = props.item.image || LoremPixel(props.type);
-
 	return React.createElement(
 		'div',
-		{ className: 'card ' + props.type },
+		{ className: 'card ' + props.item.group },
 		React.createElement(
 			'header',
 			null,
 			React.createElement(
 				'div',
 				null,
-				val(props.item)
+				props.item.name
 			)
 		),
-		React.createElement('figure', { style: { backgroundImage: 'url(' + image + ')' } }),
+		React.createElement('figure', { style: { backgroundImage: 'url(' + (props.item.image || '') + ')' } }),
 		React.createElement(
 			'footer',
 			null,
 			React.createElement(
 				'div',
 				null,
-				val(props.item)
+				props.item.name
 			)
 		)
 	);
@@ -1477,88 +1386,37 @@ var Card = function Card(props) {
 
 var ClueGame = React.createClass({
 	displayName: 'ClueGame',
+
+	mixins: [ReactFireMixin],
 	getInitialState: function getInitialState() {
 		return {
-			game: {
-				name: 'Clue'
-			},
-			groups: [{
-				name: 'Who',
-				type: 'character',
-				items: [{
-					name: 'Mr. Green'
-				}, {
-					name: 'Colonel Mustard'
-				}, {
-					name: 'Mrs. Peacock'
-				}, {
-					name: 'Professor Plum'
-				}, {
-					name: 'Miss Scarlet'
-				}, {
-					name: 'Mrs. White'
-				}, {
-					name: ''
-				}, {
-					name: ''
-				}]
-			}, {
-				name: 'How',
-				type: 'weapon',
-				items: [{
-					name: 'Candlestick'
-				}, {
-					name: 'Knife'
-				}, {
-					name: 'Lead Pipe'
-				}, {
-					name: 'Poison'
-				}, {
-					name: 'Revolver'
-				}, {
-					name: 'Rope'
-				}, {
-					name: 'Wrench'
-				}, {
-					name: ''
-				}]
-			}, {
-				name: 'Where',
-				type: 'room',
-				items: [{
-					name: 'Conservatory'
-				}, {
-					name: 'Billiard Room'
-				}, {
-					name: 'Library'
-				}, {
-					name: 'Study'
-				}, {
-					name: 'Ballroom'
-				}, {
-					name: 'Hall'
-				}, {
-					name: 'Kitchen'
-				}, {
-					name: 'Dining Room'
-				}, {
-					name: 'Lounge'
-				}]
-			}]
+			game: {},
+			groups: [],
+			items: [],
+			rooms: {},
+			overrides: {
+				game: {},
+				items: {}
+			}
 		};
 	},
-	handleChange: function handleChange(key, value, groupIndex, itemIndex) {
-		if (arguments.length <= 2) {
-			var game = Object.assign({}, this.state.game);
-			game[key] = value;
+	componentWillMount: function componentWillMount() {
+		this.firebase = new Firebase('https://mismith.firebaseio.com/clue');
 
-			this.setState({ game: game });
-		} else {
-			var groups = [].concat(this.state.groups);
-			groups[groupIndex].items[itemIndex][key] = value;
+		var defaults = this.firebase.child('defaults');
+		this.bindAsObject(defaults.child('game'), 'game');
+		this.bindAsArray(defaults.child('groups'), 'groups');
+		this.bindAsArray(defaults.child('items'), 'items');
+		this.bindAsObject(defaults.child('items'), 'rooms');
 
-			this.setState({ groups: groups });
+		if (!this.props.id) {
+			this.props.id = this.firebase.child('games').push().key();
+			// @TODO: redirect/change hash
 		}
+		this.bindAsObject(this.firebase.child('games').child(this.props.id), 'overrides');
+	},
+	handleChange: function handleChange(path, key, value) {
+		this.firebase.child('games').child(this.props.id).child(path).child(key).set(value);
 	},
 	render: function render() {
 		var _this = this;
@@ -1581,31 +1439,24 @@ var ClueGame = React.createClass({
 							'Game'
 						)
 					),
-					React.createElement(
-						'tr',
-						null,
-						React.createElement(
-							'td',
-							null,
-							React.createElement('input', { placeholder: this.state.game.name, onChange: function onChange(e) {
-									return _this.handleChange('value', e.target.value);
-								} })
-						),
-						React.createElement(
-							'td',
-							null,
-							React.createElement(ImgurUpload, { onUpload: function onUpload(data) {
-									return _this.handleChange('image', data.link);
-								}, onRemove: function onRemove(data) {
-									return _this.handleChange('image', null);
-								} })
-						)
-					)
+					React.createElement(ClueGame.ItemInput, {
+						item: this.state.overrides.game,
+						'default': this.state.game,
+						onChange: function onChange(e) {
+							return _this.handleChange('game', 'name', e.target.value);
+						},
+						onUpload: function onUpload(data) {
+							return _this.handleChange('game', 'image', data.link);
+						},
+						onRemove: function onRemove(data) {
+							return _this.handleChange('game', 'image', null);
+						}
+					})
 				),
-				this.state.groups.map(function (group, i) {
+				this.state.groups.map(function (group) {
 					return React.createElement(
 						'tbody',
-						{ key: i },
+						{ key: group['.key'] },
 						React.createElement(
 							'tr',
 							null,
@@ -1615,27 +1466,23 @@ var ClueGame = React.createClass({
 								group.name
 							)
 						),
-						group.items.map(function (item, j) {
-							return React.createElement(
-								'tr',
-								{ key: j },
-								React.createElement(
-									'td',
-									null,
-									React.createElement('input', { placeholder: item.name, onChange: function onChange(e) {
-											return _this.handleChange('value', e.target.value, i, j);
-										} })
-								),
-								React.createElement(
-									'td',
-									null,
-									React.createElement(ImgurUpload, { onUpload: function onUpload(data) {
-											return _this.handleChange('image', data.link, i, j);
-										}, onRemove: function onRemove(data) {
-											return _this.handleChange('image', null, i, j);
-										} })
-								)
-							);
+						_this.state.items.filter(function (item) {
+							return item.group === group['.key'];
+						}).map(function (item) {
+							return React.createElement(ClueGame.ItemInput, {
+								key: item['.key'],
+								item: _this.state.overrides.items[item['.key']],
+								'default': item,
+								onChange: function onChange(e) {
+									return _this.handleChange('items/' + item['.key'], 'name', e.target.value);
+								},
+								onUpload: function onUpload(data) {
+									return _this.handleChange('items/' + item['.key'], 'image', data.link);
+								},
+								onRemove: function onRemove(data) {
+									return _this.handleChange('items/' + item['.key'], 'image', null);
+								}
+							});
 						})
 					);
 				})
@@ -1643,23 +1490,49 @@ var ClueGame = React.createClass({
 			React.createElement(
 				'div',
 				{ id: 'content' },
-				React.createElement(Board, { game: this.state.game, groups: this.state.groups }),
+				React.createElement(Board, { game: this.state.game, defaults: this.state.rooms, overrides: this.state.overrides }),
 				React.createElement(
 					'div',
 					{ id: 'sheets' },
-					this.state.groups[0].items.map(function (item, i) {
-						return React.createElement(Sheet, { key: i, game: _this.state.game, groups: _this.state.groups });
+					[1, 2, 3, 4, 5, 6, 7, 8].map(function (i) {
+						return React.createElement(Sheet, { key: 's' + i, game: _this.state.game, groups: _this.state.groups, items: _this.state.items, overrides: _this.state.overrides });
 					})
 				),
 				React.createElement(
 					'div',
 					{ id: 'cards' },
-					this.state.groups.map(function (group, i) {
-						return group.items.map(function (item, j) {
-							return React.createElement(Card, { key: i + ':' + j, type: group.type, item: item });
-						});
+					this.state.items.map(function (item) {
+						return React.createElement(Card, { key: item['.key'], item: _this.state.overrides.items[item['.key']] || item });
 					})
 				)
+			)
+		);
+	}
+});
+ClueGame.ItemInput = React.createClass({
+	displayName: 'ItemInput',
+	getDefaultProps: function getDefaultProps() {
+		return {
+			item: {},
+			default: {},
+			onChange: function onChange() {},
+			onUpload: function onUpload() {},
+			onRemove: function onRemove() {}
+		};
+	},
+	render: function render() {
+		return React.createElement(
+			'tr',
+			null,
+			React.createElement(
+				'td',
+				null,
+				React.createElement('input', { value: this.props.item.name, placeholder: this.props.default.name, onChange: this.props.onChange })
+			),
+			React.createElement(
+				'td',
+				null,
+				React.createElement(ImgurUpload, { onUpload: this.props.onUpload, onRemove: this.props.onRemove })
 			)
 		);
 	}
@@ -1754,4 +1627,4 @@ var ImgurUpload = React.createClass({
 	}
 });
 
-ReactDOM.render(React.createElement(ClueGame, null), document.getElementById('clue'));
+ReactDOM.render(React.createElement(ClueGame, { id: location.hash.substring(1) }), document.getElementById('app'));
