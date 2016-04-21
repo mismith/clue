@@ -1455,7 +1455,9 @@ var ClueGame = React.createClass({
 
 		if (!this.props.id) {
 			this.props.id = this.firebase.child('games').push().key();
-			// @TODO: redirect/change hash
+
+			// change hash
+			location.hash = this.props.id;
 		}
 		this.bindAsObject(this.firebase.child('games').child(this.props.id), 'overrides');
 	},
@@ -1465,8 +1467,9 @@ var ClueGame = React.createClass({
 	render: function render() {
 		var _this = this;
 
-		var itemsData = this.state.items.map(function (item) {
-			return merge(item, _this.state.overrides.items[item['.key']]);
+		var game = merge(this.state.game, this.state.overrides.game || {}),
+		    items = this.state.items.map(function (item) {
+			return merge(item, (_this.state.overrides.items || {})[item['.key']]);
 		});
 		return React.createElement(
 			"div",
@@ -1490,13 +1493,13 @@ var ClueGame = React.createClass({
 						item: this.state.overrides.game,
 						"default": this.state.game,
 						onChange: function onChange(e) {
-							return _this.handleChange("game", 'name', e.target.value);
+							return _this.handleChange('game', 'name', e.target.value);
 						},
 						onUpload: function onUpload(data) {
-							return _this.handleChange("game", 'image', { src: data.link, deletehash: data.deletehash });
+							return _this.handleChange('game', 'image', { src: data.link, deletehash: data.deletehash });
 						},
 						onRemove: function onRemove(data) {
-							return _this.handleChange("game", 'image', null);
+							return _this.handleChange('game', 'image', null);
 						}
 					})
 				),
@@ -1518,7 +1521,7 @@ var ClueGame = React.createClass({
 						}).map(function (item) {
 							return React.createElement(ClueGame.ItemInput, {
 								key: item['.key'],
-								item: _this.state.overrides.items[item['.key']],
+								item: (_this.state.overrides.items || {})[item['.key']],
 								"default": item,
 								onChange: function onChange(e) {
 									return _this.handleChange("items/" + item['.key'], 'name', e.target.value);
@@ -1537,19 +1540,19 @@ var ClueGame = React.createClass({
 			React.createElement(
 				"div",
 				{ id: "content" },
-				React.createElement(Board, { game: this.state.game, items: itemsData }),
+				React.createElement(Board, { game: game, items: items }),
 				React.createElement(
 					"div",
 					{ id: "sheets" },
 					[1, 2, 3, 4, 5, 6, 7, 8].map(function (i) {
-						return React.createElement(Sheet, { key: 's' + i, game: merge(_this.state.game, _this.state.overrides.game), groups: _this.state.groups, items: itemsData });
+						return React.createElement(Sheet, { key: 's' + i, game: game, groups: _this.state.groups, items: items });
 					})
 				),
 				React.createElement(
 					"div",
 					{ id: "cards" },
-					this.state.items.map(function (item) {
-						return React.createElement(Card, { key: item['.key'], item: merge(item, _this.state.overrides.items[item['.key']]) });
+					items.map(function (item) {
+						return React.createElement(Card, { key: item['.key'], game: game, item: item });
 					})
 				)
 			)
@@ -1674,4 +1677,4 @@ var ImgurUpload = React.createClass({
 	}
 });
 
-ReactDOM.render(React.createElement(ClueGame, { id: location.hash.substring(1) }), document.getElementById('app'));
+ReactDOM.render(React.createElement(ClueGame, { id: location.hash.replace(/^#?/, '') }), document.getElementById('app'));
