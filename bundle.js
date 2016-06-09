@@ -1544,7 +1544,7 @@ var ClueGame = React.createClass({
 				React.createElement(
 					"div",
 					{ id: "sheets" },
-					[1, 2, 3, 4, 5, 6, 7, 8].map(function (i) {
+					[1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (i) {
 						return React.createElement(Sheet, { key: 's' + i, game: game, groups: _this.state.groups, items: items });
 					})
 				),
