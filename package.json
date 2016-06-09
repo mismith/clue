@@ -2,7 +2,7 @@
   "name": "clue",
   "version": "0.1.0",
   "description": "Generate your own custom Clue game board, sheets, and cards",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist/*",

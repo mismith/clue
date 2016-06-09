@@ -225,3 +225,52 @@ body {
 		}
 	}
 }
+
+
+@media print {
+	html,
+	body,
+	#app {
+		width: auto;
+		height: auto;
+	}
+	#input {
+		display: none;
+	}
+	#content {
+		overflow: visible;
+
+		& > * {
+			page-break-after: always;
+		}
+	}
+	.board,
+	.sheet,
+	.card {
+		page-break-inside: avoid;
+	}
+	#sheets {
+		width: 13in;
+
+		& .sheet {
+			margin-bottom: 2in;
+
+			&:nth-child(3n) {
+				page-break-after: always;
+			}
+		}
+	}
+	#cards {
+		& .card {
+			--scale: .5555555;
+			transform: scale(var(--scale));
+			transform-origin: left top;
+			margin-right: -calc(.4444444 * 4.5in);
+			margin-bottom: -calc(.4444444 * 7in);
+
+			&:nth-child(6n) {
+				page-break-after: always;
+			}
+		}
+	}
+}

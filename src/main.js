@@ -1263,7 +1263,7 @@ let ClueGame = React.createClass({
 			<div id="content">
 				<Board game={game} items={items} />
 				<div id="sheets">
-				{[1,2,3,4,5,6,7,8].map(i => 
+				{[1,2,3,4,5,6,7,8,9].map(i => 
 					<Sheet key={'s'+i} game={game} groups={this.state.groups} items={items} />
 				)}
 				</div>
