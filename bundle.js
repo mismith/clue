@@ -1299,9 +1299,8 @@ Board.defaultProps = {
 };
 
 Board.Room = function (props) {
-	var item = props.item;
-
-	var attrs = _objectWithoutProperties(props, ["item"]);
+	var item = props.item,
+	    attrs = _objectWithoutProperties(props, ["item"]);
 
 	return React.createElement(
 		"td",
@@ -1597,7 +1596,7 @@ var ImgurUpload = React.createClass({
 		return this.props.image !== nextProps.image;
 	},
 	imgur: function imgur(method) {
-		var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+		var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 		return fetch("https://api.imgur.com/3/" + method, Object.assign({
 			headers: { Authorization: 'Client-ID 6c8483b3b8e6fb9' }
