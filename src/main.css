@@ -114,6 +114,7 @@ body {
 		padding: 10px;
 	}
 	& table {
+		width: 100%;
 		border: solid 1px var(--outline-color);
 	}
 	& tr.header {
@@ -151,7 +152,7 @@ body {
 	}
 	& td {
 		height: 24px;
-		min-width: 32px;
+		min-width: 24px;
 		vertical-align: middle;
 		padding: 2px 5px;
 		border: solid 1px var(--outline-color);
@@ -159,7 +160,6 @@ body {
 		border-left-width: 0;
 
 		& div {
-			max-width: 200px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -250,27 +250,26 @@ body {
 		page-break-inside: avoid;
 	}
 	#sheets {
-		width: 13in;
-
 		& .sheet {
-			margin-bottom: 2in;
+			width: 33%;
+			margin-bottom: 0.75in;
 
-			&:nth-child(3n) {
+			/*&:nth-child(3n) {
 				page-break-after: always;
-			}
+			}*/
 		}
 	}
 	#cards {
 		& .card {
-			--scale: .5555555;
+			--scale: calc(5 / 9);
 			transform: scale(var(--scale));
 			transform-origin: left top;
-			margin-right: -calc(.4444444 * 4.5in);
-			margin-bottom: -calc(.4444444 * 7in);
+			margin-right: -calc(4 / 9 * 4.5in);
+			margin-bottom: -calc(4 / 9 * 7in);
 
-			&:nth-child(6n) {
+			/*&:nth-child(6n) {
 				page-break-after: always;
-			}
+			}*/
 		}
 	}
 }
